@@ -1,6 +1,6 @@
-# Web API Skeleton
+# Academic API
 
-Skeleton for Dropwizard Web APIs.
+API for getting academia related data on for grad students, academics, and professors.
 
 ### Generate Keys
 

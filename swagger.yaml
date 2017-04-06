@@ -1,35 +1,250 @@
 swagger: '2.0'
 info:
-  title: Web API Skeleton
-  description: Skeleton for Dropwizard Web APIs
-  version: '0.0'
+  title: Academic API
+  description: Web API to get academic information for faculty, instructors, and grad students.
+  version: "1"
   license:
     name: GNU Affero General Public License Version 3
     url: http://www.gnu.org/licenses/agpl-3.0.en.html
 externalDocs:
   description: GitHub Repository
-  url: https://github.com/osu-mist/web-api-skeleton
-host: localhost
+  url: https://github.com/osu-mist/academic-api
 schemes:
-  - http
-basePath: /api/v0
-consumes:
-  - text/plain
+  - https
+basePath: /api/v1
 produces:
-  - text/plain
+  - application/json
 paths:
-  /:
+  /directory/{osuuid}/academic:
     get:
-      summary: Get information
-      description: Build and runtime information about the application.
+      tags:
+      - academia
+      operationId: getPersonal
+      description: "Get general academic personal information for a person."
       parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
         - $ref: '#/parameters/pretty'
       responses:
-        200:
-          description: Object containing information
+        "200":
+          description: Successful response
           schema:
-            $ref: '#/definitions/Info'
-
+            $ref: "#/definitions/PersonalObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/awards:
+    get:
+      tags:
+      - academia
+      operationId: getAwards
+      description: "Get awards and honors for a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/AwardsObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/education:
+    get:
+      tags:
+      - academia
+      operationId: getEducation
+      description: "Get education history for a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/EducationObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/courses:
+    get:
+      tags:
+      - academia
+      operationId: getCourses
+      description: "Get classes taught by a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/CoursesObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/publications:
+    get:
+      tags:
+      - academia
+      operationId: getPublications
+      description: "Get publications attributed or related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/PublicationsObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/service:
+    get:
+      tags:
+      - academia
+      operationId: getGeneralService
+      description: "Get general service activities related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/GeneralServiceObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/service/professional:
+    get:
+      tags:
+      - academia
+      operationId: getProfessionalService
+      description: "Get professional service activities related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/ServiceObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/service/student:
+    get:
+      tags:
+      - academia
+      operationId: getStudentService
+      description: "Get student service activities related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/ServiceObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/service/public:
+    get:
+      tags:
+      - academia
+      operationId: getPublicService
+      description: "Get public service activities related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/ServiceObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/presentations:
+    get:
+      tags:
+      - academia
+      operationId: getPresentations
+      description: "Get presentations related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/PresentationsObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
 parameters:
   pretty:
     name: pretty
@@ -37,34 +252,749 @@ parameters:
     type: boolean
     required: false
     description: If true, JSON response will be pretty-printed
-
 definitions:
-  Info:
+  PresentationsObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/PresentationAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  PresentationAttributes:
+    properties:
+      generalServices:
+        type: array
+        items:
+          $ref: "#/definitions/Presentation"
+  Presentation:
+    properties:
+      presentationType:
+        type: string
+        format: >
+          Demonstration
+          Exhibit
+          Keynote/Plenary Address
+          Lecture
+          Oral Presentation
+          Paper
+          Poster
+          Reading of Creative Work/Performance
+          Other
+      otherPresentationTypeExplanation:
+        type: string
+        format: Explanation if type is "Other"
+      title:
+        type: string
+        format: Title of presentation.
+      eventName:
+        type: string
+        format: Name of conference or meeting the presentation was given at.
+      eventType:
+        type: string
+        format: >
+          Conference
+          Panel
+          Roundtable
+          Seminar
+          Session
+          Workshop
+          Other
+      otherEventTypeExplanation:
+        type: string
+        format: Explanation if eventType is "Other"
+      academic:
+        type: string
+        format: >
+          Academic
+          Non-Academic
+      sponsor:
+        type: string
+        format: Sponsoring organization.
+      location:
+        type: string
+      presenters:
+        type: array
+        items:
+          $ref: "#/definitions/Presenter"
+      scope:
+        type: string
+        format: >
+          International
+          National
+          Regional
+          State
+          Local
+      refereed:
+        type: boolean
+        format: Was the presentation peer-reviewed or refereed?
+      pubProceedings:
+        type: boolean
+        format: Published in proceedings
+      pubElsewhere:
+        type: boolean
+        format: Published elsewhere
+      invitedAccepted:
+        type: string
+        format: >
+          Invited
+          Accepted
+      abstract:
+        type: string
+        format: Abstract or synopsis of presentation
+      day:
+        type: string
+        format: Day of presentation.
+      month:
+        type: string
+        format: Month of presentation.
+      year:
+        type: string
+        format: Year of presentation.
+  Presenter:
+    properties:
+      osuuid:
+        type: integer
+        format: OSUUID of person if affiliated with OSU
+      firstName:
+        type: string
+      middleName:
+        type: string
+        format: Middle name or initial.
+      lastName:
+        type: string
+      role:
+        type: string
+        format: >
+          Author
+          Author & Presenter
+          Chair
+          Co-Chair
+          Coordinator/Organizer
+          Discussant
+          Leader
+          Moderator
+          Panelist
+          Presenter
+          Other
+  ServiceObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/ServiceAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  ServiceAttributes:
+    properties:
+      generalServices:
+        type: array
+        items:
+          $ref: "#/definitions/Service"
+  Service:
+    properties:
+      organization:
+        type: string
+      role:
+        type: string
+        format: >
+          Attendee, Meeting
+          Board of Advisors
+          Board of Directors
+          Chairperson
+          Committee Chair
+          Committee Member
+          Conference-Related
+          Editor, Associate Editor
+          Editor, Book
+          Editor, Conference Proceedings
+          Editor, Guest Editor
+          Editor, Journal Editor
+          Editor, Senior Editor
+          Editor, Textbook
+          Editorial Review Board Member
+          Interaction with Industry
+          Member
+          Officer, Other Officer
+          Officer, President/Elect/Past
+          Officer, Secretary
+          Officer, Treasurer
+          Officer, Vice President
+          P&T Dossier Review
+          Prepare/Grade Certification Exams
+          Program Coordinator
+          Program Organizer
+          Reviewer, Ad Hoc Reviewer
+          Reviewer, Book
+          Reviewer, Conference Paper
+          Reviewer, Grant Proposal
+          Reviewer, Journal Article
+          Reviewer, Textbook
+          Session Chair
+          Task Force Chair
+          Task Force Member
+          Track Organizer
+          Workshop Organizer
+          Other
+      otherExplanation:
+        type: string
+        format: Explanation if role is "Other"
+      city:
+        type: string
+      state:
+        type: string
+      country:
+        type: string
+      yearlyHours:
+        type: string
+        format: Number of hours spent per year on service
+      electedOrAppointed:
+        type: string
+        format: >
+          Appointed
+          Elected
+          Neither
+      compensation:
+        type: string
+        format: >
+          Compensated
+          Pro Bono
+      audience:
+        type: string
+        format: >
+          International
+          National
+          Regional
+          State
+          Local
+      servedExOfficio:
+        type: boolean
+      description:
+        type: string
+        format: Brief description of service
+      committeeAccomplish:
+        type: string
+        format: Brief description of committee's key accomplishments
+      involvedStudents:
+        type: boolean
+        format: If true, the service involved students
+      studentCount:
+        type: integer
+        format: Number if students involved if involveStduents is True
+      communityBased:
+        type: boolean
+      startDay:
+        type: string
+      startMonth:
+        type: string
+      startYear:
+        type: string
+      endDay:
+        type: string
+      endMonth:
+        type: string
+      endYear:
+        type: string
+  GeneralServiceObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/GeneralServiceAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  GeneralServiceAttributes:
+    properties:
+      generalServices:
+        type: array
+        items:
+          $ref: "#/definitions/GeneralService"
+  GeneralService:
+    properties:
+      institution:
+        type: string
+        format: >
+          College
+          Department/School
+          University
+      committee:
+        type: string
+        format: Committee name
+      role:
+        type: string
+        format: >
+          Attendee, Award Ceremony
+          Attendee, Convocation
+          Attendee, Graduation
+          Attendee, Meeting
+          Attendee, Orientation
+          Chairperson
+          Committee Chair
+          Committee Member
+          Conference-Related
+          Faculty Advisor
+          Faculty Mentor
+          Grant Proposal Reviewer, Internal
+          Guest Speaker
+          Prepare/Grade Certification Exams
+          Program Coordinator
+          Program Organizer
+          Session Chair
+          Special Institutional Assignment
+          Student Org Advisor (Non-Professional Org)
+          Student Org Advisor (Professional Org)
+          Student Placement
+          Student Recruiter
+          Task Force Chair
+          Task Force Member
+          Track Organizer
+          University Senate Service
+          Workshop Organizer
+          Other
+      otherExplanation:
+        type: string
+        format: Explanation if role is "Other"
+      yearlyHours:
+        type: string
+        format: Number of hours spent per year on service
+      electedOrAppointed:
+        type: string
+        format: >
+          Appointed
+          Elected
+          Neither
+      compensation:
+        type: string
+        format: >
+          Compensated
+          Pro Bono
+      servedExOfficio:
+        type: boolean
+      description:
+        type: string
+        format: Brief description of service
+      committeeAccomplish:
+        type: string
+        format: Brief description of committee's key accomplishments
+      startDay:
+        type: string
+      startMonth:
+        type: string
+      startYear:
+        type: string
+      endDay:
+        type: string
+      endMonth:
+        type: string
+      endYear:
+        type: string
+  PublicationsObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/PublicationsAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  PublicationsAttributes:
+    properties:
+      publications:
+          type: array
+          items:
+            $ref: "#/definitions/Publication"
+  Publication:
+    properties:
+      primaryTitle:
+        type: string
+      secondaryTitle:
+        type: string
+        format: >
+          If this is part of a larger work (e.g., a chapter in a book), Title of Larger Work
+      type:
+        type: string
+        format: >
+          Abstract
+          Book
+          Book Chapter
+          Book Review
+          Conference Proceeding
+          Extension Publication
+          Extension Teaching Material
+          FAQ Sheet
+          Instructor's Manual
+          Journal Article
+          Law Review
+          Magazine/Trade Publication
+          Manuscript
+          Monograph
+          Newsletter
+          Newspaper
+          Program Management Material
+          Research Report
+          Study Guide
+          Technical Report
+          Textbook
+          Translation or Transcription
+          Written Case with Instructional Material
+          Other
+      otherExplanation:
+        type: string
+        format: Explanation if type of publication is "other"
+      peerReviewed:
+        type: boolean
+      peerReviewType:
+        type: string
+        format: >
+          Blind
+          Double-Blind
+          Editor
+          Editorial
+          Peer
+          Not Applicable
+      contributors:
+        type: array
+        items:
+          $ref: "#/definitions/Contributor"
+      status:
+        type: string
+        format: >
+          In Preparation; Not Yet Submitted
+          Working Paper
+          Submitted
+          Revising to Resubmit
+          Not Accepted
+          Accepted
+          Published
+      datePublished:
+        type: string
+      publisher:
+        type: string
+      volume:
+        type: string
+      website:
+        type: string
+        format: URL
+  Contributor:
+    properties:
+      osuuid:
+        type: integer
+        format: OSUUID of person if affiliated with OSU
+      firstName:
+        type: string
+      middleName:
+        type: string
+        format: Middle name or initial.
+      lastName:
+        type: string
+      institution:
+        type: string
+        format: Institution or company name
+      role:
+        type: string
+        format: >
+          Author
+          Editor
+          Translator
+  CoursesObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/CoursesAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  CoursesAttributes:
+    properties:
+      courses:
+          type: array
+          items:
+            $ref: "#/definitions/Course"
+  Course:
+    properties:
+      term:
+        type: string
+        format: >
+          Fall
+          Spring
+          Summer
+          Winter
+      year:
+        type: string
+      institution:
+        type: string
+      name:
+        type: string
+      coursePrefix:
+        type: string
+      courseNumber:
+        type: string
+      sectionNumber:
+        type: string
+      deliveryMode:
+        type: string
+        format: >
+          Classroom
+          Distance Education
+          Hybrid
+          Laboratory
+          Lecture/Lab
+          Online
+          Recitation
+      creditHours:
+        type: string
+      enrollment:
+        type: integer
+      eCampus:
+        type: boolean
+        format: True if course was delivered via eCampus
+      degreeProgram:
+        type: string
+        format: >
+          Bachelor's
+          MBA
+          Specialized Master's
+          Doctoral
+      teachingStyle:
+        type: string
+        format: >
+          Case Study
+          Experiential Learning
+          Lecture
+          Simulation
+          Team Projects
+          Guest Lectures
+      teamEffort:
+        type: boolean
+        format: True if course was a team or collaborative effort
+      international:
+        type: boolean
+        format: True if teaching was international
+      country:
+        type: string
+      innovations:
+        type: string
+        format: Describe any pedagogical innovations that you introduced into this course (e.g., international issues, computer applications, ethical analysis, new classroom techniques, etc.)
+      newMaterial:
+        type: string
+        format: Describe any new teaching material (e.g., cases, videotapes, audiotapes, course modules, instructor manuals, test banks, or simulations) that you developed and/or implemented
+      learningEnhancement:
+        type: string
+        format: Describe any activities in your course that enhanced student learning and/or student contact with the community (e.g., guest speaker, outside projects, field trips, field projects, etc.)
+  EducationObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/EducationAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  EducationAttributes:
+    properties:
+      education:
+          type: array
+          items:
+            $ref: "#/definitions/EducationInstance"
+  EducationInstance:
+    properties:
+      degree:
+        type: string
+        format: >
+          BA
+          BBA
+          BS
+          DBA
+          EdD
+          JD
+          LLM
+          MA
+          MBA
+          MEng
+          MS
+          PhD
+          Other
+      otherExplanation:
+        type: string
+        format: Explanation if degree is "Other"
+      institution:
+        type: string
+      location:
+        type: string
+      major:
+        type: string
+      supportingArea:
+        type: string
+        format: Supporting Areas of Emphasis
+      dissertationTitle:
+        type: string
+        format: Title of dissertation or thesis
+      distinction:
+        type: string
+        format: Honor or distinction
+      highestDegree:
+        type: boolean
+        format: True if highest degree earned
+      yearCompleted:
+        type: string
+  AwardsObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/AwardsAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  AwardsAttributes:
+    properties:
+      awards:
+        type: array
+        items:
+          $ref: "#/definitions/Award"
+  Award:
     properties:
       name:
         type: string
-        description: Name of the API.
-      time:
+      organization:
         type: string
-        description: Build time in ISO 8601 format.
-      unixTime:
-        type: integer
-        description: Build time as milliseconds since the unix epoch.
-      commit:
+      scope:
         type: string
-        description: Git commit hash of the revision which was built.
-      documentation:
+        format: >
+          Extension
+          Leadership
+          Scholarship/Research
+          Service, Community
+          Service, Professional
+          Service, University
+          Teaching
+      scopeLocale:
         type: string
-        description: Filename of the swagger specification for the API.
+        format: >
+          International
+          National
+          Regional
+          State
+          Local
+          University
+          College
+          Department/School
+      type:
+        type: string
+        format: >
+          Individual
+          Team
+          Other
+      otherExplanation:
+        type: string
+        format: Explanation if type is "Other"
+      dayReceived:
+        type: string
+      monthReceived:
+        type: string
+      yearReceived:
+        type: string
+  PersonalObject:
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+      attributes:
+        $ref: "#/definitions/PersonalAttributes"
+      links:
+        $ref: "#/definitions/ResourceLinks"
+  PersonalAttributes:
+    properties:
+      website:
+        type: string
+        format: url
+      bio:
+        type: string
+      teachingInterests:
+        type: string
+      teachingStatement:
+        type: string
+      researchInterests:
+        type: string
+      outreachInterests:
+        type: string
+      serviceInterests:
+        type: string
+      otherAssignments:
+        type: string
+      currentRank:
+        type: string
+        format: >
+          Adjunct Faculty
+          Assistant Professor
+          Assistant Professor (Clinical)
+          Assistant Professor (Extension)
+          Assistant Professor (Senior Research)
+          Assistant Professor of Practice
+          Associate Professor
+          Associate Professor (Clinical)
+          Associate Professor (Extension)
+          Associate Professor (Senior Research)
+          Associate Professor of Practice
+          Clinical Faculty
+          Distinguished Professor
+          Emeritus
+          Executive-in-Residence
+          Faculty Research Assistant
+          Full Professor
+          Instructor
+          PhD Candidate
+          Post-Doctoral Researcher
+          Professional Faculty
+          Professor (Clinical)
+          Professor (Extension)
+          Professor (Senior Research)
+          Professor of Practice
+          Professor
+          Research Faculty
+          Research Staff
+          Senior Faculty Research Assistant II
+          Senior Faculty Research Assistant I
+          Senior Instructor II
+          Senior Instructor I
+          Senior Research Associate
+          Visiting Faculty
+      startDay:
+        type: string
+        format: Start day at Oregon State University
+      startMonth:
+        type: string
+        format: Start month at Oregon State University
+      startYear:
+        type: string
+        format: Start year at Oregon State University
+  ResourceLinks:
+    properties:
+      self:
+        type: string
   Error:
+    type: object
     properties:
       status:
         type: integer
+        format: int32
         description: HTTP status code.
       developerMessage:
         type: string
         description: An error string aimed at developers.
-      userMesage:
+      userMessage:
         type: string
         description: An error string aimed at end users.
       code:

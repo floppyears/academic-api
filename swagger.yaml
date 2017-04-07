@@ -33,7 +33,7 @@ paths:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/PersonalObject"
+            $ref: "#/definitions/PersonalResultObject"
         "404":
           description: Not found
           schema:
@@ -51,12 +51,39 @@ paths:
           type: integer
           format: int64
           required: true
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/AwardsResultObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/awards/{awardID}:
+    get:
+      tags:
+      - academia
+      operationId: getAwardByID
+      description: "Get a single award attributed to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - name: awardID
+          in: path
+          description: "ID of award object."
+          type: string
+          required: true
         - $ref: '#/parameters/pretty'
       responses:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/AwardsObject"
+            $ref: "#/definitions/AwardsResultObject"
         "404":
           description: Not found
           schema:
@@ -79,7 +106,35 @@ paths:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/EducationObject"
+            $ref: "#/definitions/EducationResultObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/education/{educationID}:
+    get:
+      tags:
+      - academia
+      operationId: getEducationByID
+      description: "Get a single education object attributed to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - name: educationID
+          in: path
+          description: "ID of education object."
+          type: string
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/EducationResultObject"
         "404":
           description: Not found
           schema:
@@ -102,7 +157,35 @@ paths:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/CoursesObject"
+            $ref: "#/definitions/CoursesResultObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/courses/{courseID}:
+    get:
+      tags:
+      - academia
+      operationId: getCourseByID
+      description: "Get a single class taught by a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - name: courseID
+          in: path
+          description: "ID of class object."
+          type: string
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/CoursesResultObject"
         "404":
           description: Not found
           schema:
@@ -125,7 +208,35 @@ paths:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/PublicationsObject"
+            $ref: "#/definitions/PublicationsResultObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/publications/{publicationID}:
+    get:
+      tags:
+      - academia
+      operationId: getPublicationByID
+      description: "Get a single publication attributed or related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - name: publicationID
+          in: path
+          description: "ID of publication object."
+          type: string
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/PublicationsResultObject"
         "404":
           description: Not found
           schema:
@@ -134,8 +245,8 @@ paths:
     get:
       tags:
       - academia
-      operationId: getGeneralService
-      description: "Get general service activities related to a person."
+      operationId: getService
+      description: "Get all service and volunteer activities related to a person, filter by query parameter."
       parameters:
         - name: osuuid
           in: path
@@ -143,22 +254,28 @@ paths:
           type: integer
           format: int64
           required: true
+        - name: type
+          in: query
+          description: "Filter by desired service type. Service types are general, professional, public, and student."
+          type: string
+          required: false
+          collectionFormat: multi
         - $ref: '#/parameters/pretty'
       responses:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/GeneralServiceObject"
+            $ref: "#/definitions/ServiceResultObject"
         "404":
           description: Not found
           schema:
             $ref: "#/definitions/Error"
-  /directory/{osuuid}/academic/service/professional:
+  /directory/{osuuid}/academic/service/{serviceID}:
     get:
       tags:
       - academia
-      operationId: getProfessionalService
-      description: "Get professional service activities related to a person."
+      operationId: getServiceByID
+      description: "Get a single service object attributed to a person."
       parameters:
         - name: osuuid
           in: path
@@ -166,58 +283,17 @@ paths:
           type: integer
           format: int64
           required: true
-        - $ref: '#/parameters/pretty'
-      responses:
-        "200":
-          description: Successful response
-          schema:
-            $ref: "#/definitions/ServiceObject"
-        "404":
-          description: Not found
-          schema:
-            $ref: "#/definitions/Error"
-  /directory/{osuuid}/academic/service/student:
-    get:
-      tags:
-      - academia
-      operationId: getStudentService
-      description: "Get student service activities related to a person."
-      parameters:
-        - name: osuuid
+        - name: serviceID
           in: path
-          description: "OSUUID of the person to be fetched."
-          type: integer
-          format: int64
+          description: "ID of service object."
+          type: string
           required: true
         - $ref: '#/parameters/pretty'
       responses:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/ServiceObject"
-        "404":
-          description: Not found
-          schema:
-            $ref: "#/definitions/Error"
-  /directory/{osuuid}/academic/service/public:
-    get:
-      tags:
-      - academia
-      operationId: getPublicService
-      description: "Get public service activities related to a person."
-      parameters:
-        - name: osuuid
-          in: path
-          description: "OSUUID of the person to be fetched."
-          type: integer
-          format: int64
-          required: true
-        - $ref: '#/parameters/pretty'
-      responses:
-        "200":
-          description: Successful response
-          schema:
-            $ref: "#/definitions/ServiceObject"
+            $ref: "#/definitions/ServiceResultObject"
         "404":
           description: Not found
           schema:
@@ -240,7 +316,35 @@ paths:
         "200":
           description: Successful response
           schema:
-            $ref: "#/definitions/PresentationsObject"
+            $ref: "#/definitions/PresentationsResultObject"
+        "404":
+          description: Not found
+          schema:
+            $ref: "#/definitions/Error"
+  /directory/{osuuid}/academic/presentations/{presentationID}:
+    get:
+      tags:
+      - academia
+      operationId: getPresentationByID
+      description: "Get a single presentation object related to a person."
+      parameters:
+        - name: osuuid
+          in: path
+          description: "OSUUID of the person to be fetched."
+          type: integer
+          format: int64
+          required: true
+        - name: presentationID
+          in: path
+          description: "ID of service object."
+          type: string
+          required: true
+        - $ref: '#/parameters/pretty'
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/PresentationsResultObject"
         "404":
           description: Not found
           schema:
@@ -253,7 +357,15 @@ parameters:
     required: false
     description: If true, JSON response will be pretty-printed
 definitions:
-  PresentationsObject:
+  PresentationsResultObject:
+    properties:
+      links:
+        $ref: "#/definitions/ResultLinks"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/Presentation"
+  Presentation:
     properties:
       id:
         type: string
@@ -264,12 +376,6 @@ definitions:
       links:
         $ref: "#/definitions/ResourceLinks"
   PresentationAttributes:
-    properties:
-      generalServices:
-        type: array
-        items:
-          $ref: "#/definitions/Presentation"
-  Presentation:
     properties:
       presentationType:
         type: string
@@ -379,6 +485,14 @@ definitions:
           Panelist
           Presenter
           Other
+  ServiceResultObject:
+    properties:
+      links:
+        $ref: "#/definitions/ResultLinks"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/ServiceObject"
   ServiceObject:
     properties:
       id:
@@ -391,18 +505,32 @@ definitions:
         $ref: "#/definitions/ResourceLinks"
   ServiceAttributes:
     properties:
-      generalServices:
-        type: array
-        items:
-          $ref: "#/definitions/Service"
-  Service:
-    properties:
       organization:
         type: string
+      institution:
+        type: string
+        format: >
+          College
+          Department/School
+          University
+      committee:
+        type: string
+        format: Committee name
+      type:
+        type: string
+        format: >
+          General
+          Professional
+          Public
+          Student
       role:
         type: string
         format: >
+          Attendee, Award Ceremony
+          Attendee, Convocation
+          Attendee, Graduation
           Attendee, Meeting
+          Attendee, Orientation
           Board of Advisors
           Board of Directors
           Chairperson
@@ -417,6 +545,10 @@ definitions:
           Editor, Senior Editor
           Editor, Textbook
           Editorial Review Board Member
+          Faculty Advisor
+          Faculty Mentor
+          Grant Proposal Reviewer, Internal
+          Guest Speaker
           Interaction with Industry
           Member
           Officer, Other Officer
@@ -435,9 +567,15 @@ definitions:
           Reviewer, Journal Article
           Reviewer, Textbook
           Session Chair
+          Special Institutional Assignment
+          Student Org Advisor (Non-Professional Org)
+          Student Org Advisor (Professional Org)
+          Student Placement
+          Student Recruiter
           Task Force Chair
           Task Force Member
           Track Organizer
+          University Senate Service
           Workshop Organizer
           Other
       otherExplanation:
@@ -484,7 +622,7 @@ definitions:
         format: If true, the service involved students
       studentCount:
         type: integer
-        format: Number if students involved if involveStduents is True
+        format: Number if students involved if involvedStudents is True
       communityBased:
         type: boolean
       startDay:
@@ -499,118 +637,25 @@ definitions:
         type: string
       endYear:
         type: string
-  GeneralServiceObject:
+  PublicationsResultObject:
     properties:
-      id:
-        type: string
-      type:
-        type: string
-      attributes:
-        $ref: "#/definitions/GeneralServiceAttributes"
       links:
-        $ref: "#/definitions/ResourceLinks"
-  GeneralServiceAttributes:
-    properties:
-      generalServices:
+        $ref: "#/definitions/ResultLinks"
+      data:
         type: array
         items:
-          $ref: "#/definitions/GeneralService"
-  GeneralService:
-    properties:
-      institution:
-        type: string
-        format: >
-          College
-          Department/School
-          University
-      committee:
-        type: string
-        format: Committee name
-      role:
-        type: string
-        format: >
-          Attendee, Award Ceremony
-          Attendee, Convocation
-          Attendee, Graduation
-          Attendee, Meeting
-          Attendee, Orientation
-          Chairperson
-          Committee Chair
-          Committee Member
-          Conference-Related
-          Faculty Advisor
-          Faculty Mentor
-          Grant Proposal Reviewer, Internal
-          Guest Speaker
-          Prepare/Grade Certification Exams
-          Program Coordinator
-          Program Organizer
-          Session Chair
-          Special Institutional Assignment
-          Student Org Advisor (Non-Professional Org)
-          Student Org Advisor (Professional Org)
-          Student Placement
-          Student Recruiter
-          Task Force Chair
-          Task Force Member
-          Track Organizer
-          University Senate Service
-          Workshop Organizer
-          Other
-      otherExplanation:
-        type: string
-        format: Explanation if role is "Other"
-      yearlyHours:
-        type: string
-        format: Number of hours spent per year on service
-      electedOrAppointed:
-        type: string
-        format: >
-          Appointed
-          Elected
-          Neither
-      compensation:
-        type: string
-        format: >
-          Compensated
-          Pro Bono
-      servedExOfficio:
-        type: boolean
-      description:
-        type: string
-        format: Brief description of service
-      committeeAccomplish:
-        type: string
-        format: Brief description of committee's key accomplishments
-      startDay:
-        type: string
-      startMonth:
-        type: string
-      startYear:
-        type: string
-      endDay:
-        type: string
-      endMonth:
-        type: string
-      endYear:
-        type: string
-  PublicationsObject:
+          $ref: "#/definitions/Publication"
+  Publication:
     properties:
       id:
         type: string
       type:
         type: string
       attributes:
-        $ref: "#/definitions/PublicationsAttributes"
+        $ref: "#/definitions/PublicationAttributes"
       links:
         $ref: "#/definitions/ResourceLinks"
-  PublicationsAttributes:
-    properties:
-      publications:
-          type: array
-          items:
-            $ref: "#/definitions/Publication"
-  Publication:
+  PublicationAttributes:
     properties:
       primaryTitle:
         type: string
@@ -703,23 +748,25 @@ definitions:
           Author
           Editor
           Translator
-  CoursesObject:
+  CoursesResultObject:
+    properties:
+      links:
+        $ref: "#/definitions/ResultLinks"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/Course"
+  Course:
     properties:
       id:
         type: string
       type:
         type: string
       attributes:
-        $ref: "#/definitions/CoursesAttributes"
+        $ref: "#/definitions/CourseAttributes"
       links:
         $ref: "#/definitions/ResourceLinks"
-  CoursesAttributes:
-    properties:
-      courses:
-          type: array
-          items:
-            $ref: "#/definitions/Course"
-  Course:
+  CourseAttributes:
     properties:
       term:
         type: string
@@ -790,6 +837,14 @@ definitions:
       learningEnhancement:
         type: string
         format: Describe any activities in your course that enhanced student learning and/or student contact with the community (e.g., guest speaker, outside projects, field trips, field projects, etc.)
+  EducationResultObject:
+    properties:
+      links:
+        $ref: "#/definitions/ResultLinks"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/EducationObject"
   EducationObject:
     properties:
       id:
@@ -797,15 +852,9 @@ definitions:
       type:
         type: string
       attributes:
-        $ref: "#/definitions/EducationAttributes"
+        $ref: "#/definitions/EducationInstance"
       links:
         $ref: "#/definitions/ResourceLinks"
-  EducationAttributes:
-    properties:
-      education:
-          type: array
-          items:
-            $ref: "#/definitions/EducationInstance"
   EducationInstance:
     properties:
       degree:
@@ -847,23 +896,25 @@ definitions:
         format: True if highest degree earned
       yearCompleted:
         type: string
-  AwardsObject:
+  AwardsResultObject:
+    properties:
+      links:
+        $ref: "#/definitions/ResultLinks"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/Award"
+  Award:
     properties:
       id:
         type: string
       type:
         type: string
       attributes:
-        $ref: "#/definitions/AwardsAttributes"
+        $ref: "#/definitions/AwardAttributes"
       links:
         $ref: "#/definitions/ResourceLinks"
-  AwardsAttributes:
-    properties:
-      awards:
-        type: array
-        items:
-          $ref: "#/definitions/Award"
-  Award:
+  AwardAttributes:
     properties:
       name:
         type: string
@@ -905,7 +956,15 @@ definitions:
         type: string
       yearReceived:
         type: string
-  PersonalObject:
+  PersonalResultObject:
+    properties:
+      links:
+        $ref: "#/definitions/ResultLinks"
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/PersonalResourceObject"
+  PersonalResourceObject:
     properties:
       id:
         type: string
@@ -983,6 +1042,18 @@ definitions:
   ResourceLinks:
     properties:
       self:
+        type: string
+  ResultLinks:
+    properties:
+      self:
+        type: string
+      first:
+        type: string
+      last:
+        type: string
+      prev:
+        type: string
+      next:
         type: string
   Error:
     type: object

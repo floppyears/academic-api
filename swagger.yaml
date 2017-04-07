@@ -360,7 +360,7 @@ definitions:
   PresentationsResultObject:
     properties:
       links:
-        $ref: "#/definitions/ResultLinks"
+        $ref: "#/definitions/ResourceLinks"
       data:
         type: array
         items:
@@ -488,7 +488,7 @@ definitions:
   ServiceResultObject:
     properties:
       links:
-        $ref: "#/definitions/ResultLinks"
+        $ref: "#/definitions/ResourceLinks"
       data:
         type: array
         items:
@@ -640,7 +640,7 @@ definitions:
   PublicationsResultObject:
     properties:
       links:
-        $ref: "#/definitions/ResultLinks"
+        $ref: "#/definitions/ResourceLinks"
       data:
         type: array
         items:
@@ -707,7 +707,26 @@ definitions:
       contributors:
         type: array
         items:
-          $ref: "#/definitions/Contributor"
+          properties:
+            osuuid:
+              type: integer
+              format: OSUUID of person if affiliated with OSU
+            firstName:
+              type: string
+            middleName:
+              type: string
+              format: Middle name or initial.
+            lastName:
+              type: string
+            institution:
+              type: string
+              format: Institution or company name
+      role:
+        type: string
+        format: >
+          Author
+          Editor
+          Translator
       status:
         type: string
         format: >
@@ -727,31 +746,10 @@ definitions:
       website:
         type: string
         format: URL
-  Contributor:
-    properties:
-      osuuid:
-        type: integer
-        format: OSUUID of person if affiliated with OSU
-      firstName:
-        type: string
-      middleName:
-        type: string
-        format: Middle name or initial.
-      lastName:
-        type: string
-      institution:
-        type: string
-        format: Institution or company name
-      role:
-        type: string
-        format: >
-          Author
-          Editor
-          Translator
   CoursesResultObject:
     properties:
       links:
-        $ref: "#/definitions/ResultLinks"
+        $ref: "#/definitions/ResourceLinks"
       data:
         type: array
         items:
@@ -840,7 +838,7 @@ definitions:
   EducationResultObject:
     properties:
       links:
-        $ref: "#/definitions/ResultLinks"
+        $ref: "#/definitions/ResourceLinks"
       data:
         type: array
         items:
@@ -899,7 +897,7 @@ definitions:
   AwardsResultObject:
     properties:
       links:
-        $ref: "#/definitions/ResultLinks"
+        $ref: "#/definitions/ResourceLinks"
       data:
         type: array
         items:
@@ -959,7 +957,7 @@ definitions:
   PersonalResultObject:
     properties:
       links:
-        $ref: "#/definitions/ResultLinks"
+        $ref: "#/definitions/ResourceLinks"
       data:
         type: array
         items:
@@ -974,6 +972,8 @@ definitions:
         $ref: "#/definitions/PersonalAttributes"
       links:
         $ref: "#/definitions/ResourceLinks"
+      relationships:
+        $ref: "#/definitions/PersonalRelationships"
   PersonalAttributes:
     properties:
       website:
@@ -1039,21 +1039,29 @@ definitions:
       startYear:
         type: string
         format: Start year at Oregon State University
+  PersonalRelationships:
+    properties:
+      awards:
+        $ref: "#/definitions/RelationshipLinks"
+      education:
+        $ref: "#/definitions/RelationshipLinks"
+      courses:
+        $ref: "#/definitions/RelationshipLinks"
+      publications:
+        $ref: "#/definitions/RelationshipLinks"
+      service:
+        $ref: "#/definitions/RelationshipLinks"
+      presentations:
+        $ref: "#/definitions/RelationshipLinks"
+  RelationshipLinks:
+    properties:
+      links:
+        properties:
+          related:
+            type: string      
   ResourceLinks:
     properties:
       self:
-        type: string
-  ResultLinks:
-    properties:
-      self:
-        type: string
-      first:
-        type: string
-      last:
-        type: string
-      prev:
-        type: string
-      next:
         type: string
   Error:
     type: object

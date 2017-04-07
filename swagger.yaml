@@ -959,9 +959,7 @@ definitions:
       links:
         $ref: "#/definitions/ResourceLinks"
       data:
-        type: array
-        items:
-          $ref: "#/definitions/PersonalResourceObject"
+        $ref: "#/definitions/PersonalResourceObject"
   PersonalResourceObject:
     properties:
       id:
